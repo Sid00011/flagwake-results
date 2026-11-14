@@ -27,7 +27,8 @@ Free-tier limits, as read on the provider's own rate-limit page:
 | model | requests per minute | requests per day | read on |
 |---|---|---|---|
 | `gemini-3.5-flash-lite` | 15 | 500 | 2026-11-14 (also 250,000 tokens per minute) |
-| `gemma-4-31b-it` | FILL IN | FILL IN | FILL IN |
+| `gemma-4-31b-it` | 30 | 14,400 | 2026-11-14 (16,000 tokens per minute; no signed run, see Changes) |
+| `gemma-4-26b-a4b-it` | 30 | 14,400 | 2026-11-14 (also 16,000 tokens per minute) |
 
 ## Settings, the same for every model (`settings.json`)
 
@@ -36,6 +37,8 @@ Free-tier limits, as read on the provider's own rate-limit page:
     stays within 80% of the model's requests per day. At 500 a day that is 20 (400 requests).
   - `--rpm 14` paces requests one under the provider's 15 a minute, so that a new incident
     starting right after the last one does not go over it.
+  - A model whose limits differ gets its own pace in its line of `settings.json`, recorded under
+    Changes before its run; the call limit always follows the rule above.
   - At most 1,024 tokens per reply, because reasoning tokens count against it.
   - At most 40 seconds per request. After a rate-limit or busy answer, the agent waits as long as
     the provider asks and spaces out its later requests. A wait may use the 55 seconds a command
@@ -63,8 +66,7 @@ result.
      v0.5.0rc4. It checks that the secret reaches the workflow and that signing works. It is not
      official, because the practice incidents are public.
   2. `gemini-3.5-flash-lite`
-  3. `gemma-4-31b-it`, after an unsigned smoke run shows that it answers through the endpoint
-     Flagwake uses, with its call limit set by the rule above from its requests per day.
+  3. `gemma-4-26b-a4b-it` (see Changes for why not `gemma-4-31b-it`)
 
 **Repeats.** A model run is repeated only if its report shows provider-side failures (failed calls
 greater than 0) or if no report was produced. The repeat is a new attempt, and both are published
@@ -131,3 +133,7 @@ docs/LIMITATIONS.md).
   retried, 1 failed call); `gemma-4-31b-it` failed 16 of 23 (requests over 40 seconds and server
   errors). Only `gemma-4-26b-a4b-it` goes on to a signed run, with its call limit set by the rule
   above from its requests per day.
+- 2026-11-14, before its signed run: `gemma-4-26b-a4b-it` gets 20 calls per incident (14,400
+  requests a day) and its own pace, `--rpm 6`, set in `settings.json`. Its limit is 16,000 tokens a
+  minute, and a request is about 1,700 tokens on average and up to about 2,800 late in an incident;
+  the smoke run went over the limit at a pace of 14. Everything else is as for every model.

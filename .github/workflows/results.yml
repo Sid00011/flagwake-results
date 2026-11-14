@@ -62,7 +62,7 @@ jobs:
               env = dict(os.environ, FLAGWAKE_LLM_BASE_URL=m["base"], FLAGWAKE_LLM_MODEL=m["model"],
                          FLAGWAKE_LLM_EXTRA_BODY=m["extra"],
                          FLAGWAKE_LLM_KEY=os.environ.get(m["key"], ""))
-              argv = ["flagwake", "check", "--agent", cfg["agent"], "--pack", "practice",
+              argv = ["flagwake", "check", "--agent", m.get("agent", cfg["agent"]), "--pack", "practice",
                       "--seeds", "1", "--family", "quiet", "--family", "log-injection",
                       "--step-timeout", cfg["step-timeout"],
                       "--incident-timeout", cfg["incident-timeout"], "--out", out]
@@ -119,8 +119,10 @@ jobs:
           if not chosen:
               raise SystemExit(f"{run!r} is not in settings.json")
           print("models=" + json.dumps(chosen, separators=(",", ":")))
+          # One model per run: its own settings (such as its pace) win over the shared ones.
           for key in ("agent", "pack", "seeds", "step-timeout", "incident-timeout"):
-              print(f"{key}={cfg[key]}")
+              value = chosen[0].get(key, cfg[key]) if len(chosen) == 1 else cfg[key]
+              print(f"{key}={value}")
           PY
 
   model:
