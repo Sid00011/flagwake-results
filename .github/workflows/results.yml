@@ -1,6 +1,6 @@
 # Flagwake runs of the models in settings.json (see PLAN.md).
 #
-# Signed runs call Flagwake's signing workflow at release v0.5.0rc5 with Flagwake's own model
+# Signed runs call Flagwake's signing workflow at release v0.5.0rc6 with Flagwake's own model
 # agent. The signature names that workflow as the signer and this repository's commit as the
 # caller, so the settings of a run are the ones in this file and in settings.json at that commit.
 #
@@ -46,7 +46,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Flagwake
-        run: python -m pip install --disable-pip-version-check --quiet "flagwake[provenance] @ git+https://github.com/Sid00011/Flagwake@v0.5.0rc5"
+        run: python -m pip install --disable-pip-version-check --quiet "flagwake[provenance] @ git+https://github.com/Sid00011/Flagwake@v0.5.0rc6"
       - name: Two practice incidents per model (unsigned, no attempt number)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -82,7 +82,7 @@ jobs:
       contents: read
       id-token: write      # the run's own signing identity
       attestations: write  # to store the signatures with the repository
-    uses: Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc5
+    uses: Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc6
     with:
       agent: reference:model --dry
       pack: practice
@@ -134,7 +134,7 @@ jobs:
       contents: read
       id-token: write
       attestations: write
-    uses: Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc5
+    uses: Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc6
     with:
       agent: ${{ needs.pick.outputs.agent }}
       pack: ${{ needs.pick.outputs.pack }}

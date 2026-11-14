@@ -8,8 +8,9 @@ the next run.
 
 ## What is run
 
-Flagwake's own model agent (`reference:model`, Flagwake v0.5.0rc5) through Flagwake's signing
-workflow (`Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc5`). The model is the defender.
+Flagwake's own model agent (`reference:model`) through Flagwake's signing workflow
+(`Sid00011/Flagwake/.github/workflows/check.yml`) at a release tag: v0.5.0rc5 for attempt 2,
+v0.5.0rc6 for every run after it (see Changes). The model is the defender.
 The harness starts the agent from its installed code, the agent asks the model for every command,
 and the report records the model id the provider's server returned.
 
@@ -43,7 +44,8 @@ Free-tier limits, as read on the provider's own rate-limit page:
   drawn inside each run with a key made in the run. Every run therefore has different incidents.
 - Step timeout: 60 seconds per command. Incident timeout: 1,800 seconds, so that 20 calls with
   rate-limit waits still fit (the default is 900).
-- Temperature 0, and the agent's fixed instruction and history window, as in Flagwake v0.5.0rc5.
+- Temperature 0, and the agent's fixed instruction and history window, as in the release the run
+  names.
 
 **What the call limit means.** On the same kind of incidents, Flagwake's scripted `careful` program
 uses 12–30 commands per incident (mean 18.9, measured 2026-11-13), mostly reading logs. A model
@@ -121,3 +123,7 @@ docs/LIMITATIONS.md).
 - 2026-11-14: the smoke run of `gemma-4-26b-a4b-it` failed too: 10 of 20 calls got HTTP 500 or a
   rate-limit answer that did not fit, and several replies wrapped the command in the model's
   thinking tags. Neither Gemma 4 model gets a signed run on Flagwake v0.5.0rc5.
+- 2026-11-14: every run after attempt 2 uses Flagwake v0.5.0rc6. Its model agent skips reasoning in
+  `<thinking>`, `<thought>` and `<reasoning>` blocks as well as `<think>`, does not take an echoed
+  command list or a `<placeholder>` template as a command, and retries an HTTP 500 twice.
+  Attempt 2 (gemini-3.5-flash-lite) stands as run on v0.5.0rc5.
