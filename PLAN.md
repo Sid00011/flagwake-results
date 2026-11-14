@@ -127,3 +127,7 @@ docs/LIMITATIONS.md).
   `<thinking>`, `<thought>` and `<reasoning>` blocks as well as `<think>`, does not take an echoed
   command list or a `<placeholder>` template as a command, and retries an HTTP 500 twice.
   Attempt 2 (gemini-3.5-flash-lite) stands as run on v0.5.0rc5.
+- 2026-11-14, smoke runs on v0.5.0rc6: `gemma-4-26b-a4b-it` answered 39 of 40 calls (12 server errors
+  retried, 1 failed call); `gemma-4-31b-it` failed 16 of 23 (requests over 40 seconds and server
+  errors). Only `gemma-4-26b-a4b-it` goes on to a signed run, with its call limit set by the rule
+  above from its requests per day.
