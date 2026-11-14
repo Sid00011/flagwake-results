@@ -16,6 +16,7 @@ and the report records the model id the provider's server returned.
 | model id | provider and base URL | status on 2026-11-13 | reasoning setting |
 |---|---|---|---|
 | `gemini-3.5-flash-lite` | Google AI Studio (free tier), `https://generativelanguage.googleapis.com/v1beta/openai/` | stable | `{"reasoning_effort":"minimal"}`, the lowest Google documents (thinking cannot be switched off on Gemini 3 models) |
+| `gemma-4-31b-it` (open weights) | Google AI Studio (free tier), same base URL and key | listed for the Gemini API since 2026-04 | none sent (the model's default) |
 
 A model added later gets its own row and settings here, committed before its first run.
 
@@ -24,6 +25,7 @@ Free-tier limits, as read on the provider's own rate-limit page:
 | model | requests per minute | requests per day | read on |
 |---|---|---|---|
 | `gemini-3.5-flash-lite` | 15 | 500 | 2026-11-14 (also 250,000 tokens per minute) |
+| `gemma-4-31b-it` | FILL IN | FILL IN | FILL IN |
 
 ## Settings, the same for every model (`settings.json`)
 
@@ -58,6 +60,8 @@ result.
      v0.5.0rc4. It checks that the secret reaches the workflow and that signing works. It is not
      official, because the practice incidents are public.
   2. `gemini-3.5-flash-lite`
+  3. `gemma-4-31b-it`, after an unsigned smoke run shows that it answers through the endpoint
+     Flagwake uses, with its call limit set by the rule above from its requests per day.
 
 **Repeats.** A model run is repeated only if its report shows provider-side failures (failed calls
 greater than 0) or if no report was produced. The repeat is a new attempt, and both are published
@@ -108,3 +112,5 @@ docs/LIMITATIONS.md).
 - 2026-11-14, after attempt 2: the run had 2 provider-side failed calls out of 338, one rate-limit
   answer whose wait did not fit and one reply that was not chat-completions JSON. The repeat that
   "Repeats" allows was not made. Attempt 2 stands as the result.
+- 2026-11-14, before its first run: `gemma-4-31b-it` added. The workflow no longer offers a
+  choice that runs every model, so a finished model cannot be run again by mistake.

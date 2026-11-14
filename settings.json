@@ -11,6 +11,13 @@
       "base": "https://generativelanguage.googleapis.com/v1beta/openai/",
       "key": "GEMINI_API_KEY",
       "extra": "{\"reasoning_effort\":\"minimal\"}"
+    },
+    {
+      "name": "gemma-4-31b-it",
+      "model": "gemma-4-31b-it",
+      "base": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "key": "GEMINI_API_KEY",
+      "extra": ""
     }
   ]
 }

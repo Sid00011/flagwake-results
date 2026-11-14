@@ -5,11 +5,11 @@
 # caller, so the settings of a run are the ones in this file and in settings.json at that commit.
 #
 # Start it by hand: Actions > results > Run workflow.
-#   smoke   unsigned: two public practice incidents per model, to check that the model answers;
-#           it draws no attempt number and uploads nothing
+#   smoke   unsigned: two public practice incidents per model (or only the model named in
+#           "only"), to check that the model answers; it draws no attempt number, uploads nothing
 #   wiring  signed, no model: checks that the secret arrives and that signing works
-#   models  signed: every model in settings.json, one after another
-#   <name>  signed: one model, only for a repeat that PLAN.md allows
+#   <name>  signed: one model, for its first run or a repeat that PLAN.md allows
+# There is no "every model" choice, so no click can run a finished model again.
 # The names in the choice list below must match the "name" fields of settings.json.
 name: results
 
@@ -17,9 +17,13 @@ on:
   workflow_dispatch:
     inputs:
       run:
-        description: smoke, wiring, models, or one model from settings.json
+        description: smoke, wiring, or one model from settings.json
         type: choice
-        options: [smoke, wiring, models, gemini-3.5-flash-lite]
+        options: [smoke, wiring, gemini-3.5-flash-lite, gemma-4-31b-it]
+      only:
+        description: "smoke only: one model's name (empty: every model)"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -46,11 +50,14 @@ jobs:
       - name: Two practice incidents per model (unsigned, no attempt number)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ONLY: ${{ inputs.only }}
         run: |
           python -I - <<'PY'
           import json, os, subprocess
           cfg = json.load(open("settings.json", encoding="utf-8"))
           for m in cfg["models"]:
+              if os.environ.get("ONLY") and m["name"] != os.environ["ONLY"]:
+                  continue
               out = f"smoke-{m['name']}"
               env = dict(os.environ, FLAGWAKE_LLM_BASE_URL=m["base"], FLAGWAKE_LLM_MODEL=m["model"],
                          FLAGWAKE_LLM_EXTRA_BODY=m["extra"],
