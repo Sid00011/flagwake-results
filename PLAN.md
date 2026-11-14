@@ -162,3 +162,7 @@ docs/LIMITATIONS.md).
   no longer be re-checked. It gets no signed run. `@cf/zai-org/glm-4.7-flash` takes its place, before
   any run of it, with reasoning switched off by the parameter Cloudflare documents for it (the lowest
   reasoning setting the provider documents, as for every model here); the neuron rule above applies.
+- 2026-11-15, smoke run of `glm-4.7-flash` (unsigned, reasoning off): 40 calls, 0 failed, 0 replies
+  without a command; 59,537 input and 257 output tokens, about 8.4 neurons a call. By the neuron rule
+  the call limit is 20: 20 incidents x 20 calls x 8.4 = about 3,360 neurons, within 80% of 10,000.
+  The signed run uses the shared settings (20 calls, `--rpm 14`) with this model's reasoning switch.
