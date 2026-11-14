@@ -26,6 +26,13 @@
       "key": "GEMINI_API_KEY",
       "extra": "",
       "agent": "reference:model --max-calls 20 --max-tokens 1024 --timeout 40 --rpm 6"
+    },
+    {
+      "name": "qwen3-30b-a3b",
+      "model": "@cf/qwen/qwen3-30b-a3b-fp8",
+      "base_secret": "CF_BASE_URL",
+      "key": "CF_API_TOKEN",
+      "extra": ""
     }
   ]
 }

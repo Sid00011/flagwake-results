@@ -3,6 +3,8 @@
 # Signed runs call Flagwake's signing workflow at release v0.5.0rc6 with Flagwake's own model
 # agent. The signature names that workflow as the signer and this repository's commit as the
 # caller, so the settings of a run are the ones in this file and in settings.json at that commit.
+# A model whose address contains an account identifier keeps it in a secret (base_secret): it
+# reaches the agent through defender-env, and the report records only the address's host name.
 #
 # Start it by hand: Actions > results > Run workflow.
 #   smoke   unsigned: two public practice incidents per model (or only the model named in
@@ -19,7 +21,7 @@ on:
       run:
         description: smoke, wiring, or one model from settings.json
         type: choice
-        options: [smoke, wiring, gemini-3.5-flash-lite, gemma-4-31b-it, gemma-4-26b-a4b-it]
+        options: [smoke, wiring, gemini-3.5-flash-lite, gemma-4-31b-it, gemma-4-26b-a4b-it, qwen3-30b-a3b]
       only:
         description: "smoke only: one model's name (empty: every model)"
         type: string
@@ -50,6 +52,8 @@ jobs:
       - name: Two practice incidents per model (unsigned, no attempt number)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_BASE_URL: ${{ secrets.CF_BASE_URL }}
           ONLY: ${{ inputs.only }}
         run: |
           python -I - <<'PY'
@@ -59,8 +63,9 @@ jobs:
               if os.environ.get("ONLY") and m["name"] != os.environ["ONLY"]:
                   continue
               out = f"smoke-{m['name']}"
-              env = dict(os.environ, FLAGWAKE_LLM_BASE_URL=m["base"], FLAGWAKE_LLM_MODEL=m["model"],
-                         FLAGWAKE_LLM_EXTRA_BODY=m["extra"],
+              base = os.environ.get(m["base_secret"], "") if m.get("base_secret") else m["base"]
+              env = dict(os.environ, FLAGWAKE_LLM_BASE_URL=base, FLAGWAKE_LLM_MODEL=m["model"],
+                         FLAGWAKE_LLM_EXTRA_BODY=m.get("extra", ""),
                          FLAGWAKE_LLM_KEY=os.environ.get(m["key"], ""))
               argv = ["flagwake", "check", "--agent", m.get("agent", cfg["agent"]), "--pack", "practice",
                       "--seeds", "1", "--family", "quiet", "--family", "log-injection",
@@ -106,7 +111,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
         with:
           persist-credentials: false
-      - name: The settings and models of this run, from settings.json
+      - name: The settings and model of this run, from settings.json
         id: pick
         env:
           RUN: ${{ inputs.run }}
@@ -115,13 +120,24 @@ jobs:
           import json, os
           run = os.environ["RUN"]
           cfg = json.load(open("settings.json", encoding="utf-8"))
-          chosen = [m for m in cfg["models"] if run == "models" or m["name"] == run]
+          chosen = [m for m in cfg["models"] if m["name"] == run]
           if not chosen:
               raise SystemExit(f"{run!r} is not in settings.json")
+          for m in chosen:
+              # Public settings go in defender-vars (they are part of the signed workflow inputs);
+              # an address kept in a secret (base_secret) goes through defender-env instead.
+              lines = [] if m.get("base_secret") else [f"FLAGWAKE_LLM_BASE_URL={m['base']}"]
+              lines += [f"FLAGWAKE_LLM_MODEL={m['model']}",
+                        f"FLAGWAKE_LLM_EXTRA_BODY={m.get('extra', '')}"]
+              m["defender_vars"] = "\n".join(lines)
+              env = [f"FLAGWAKE_LLM_KEY={m['key']}"]
+              if m.get("base_secret"):
+                  env.append(f"FLAGWAKE_LLM_BASE_URL={m['base_secret']}")
+              m["defender_env"] = ",".join(env)
           print("models=" + json.dumps(chosen, separators=(",", ":")))
           # One model per run: its own settings (such as its pace) win over the shared ones.
           for key in ("agent", "pack", "seeds", "step-timeout", "incident-timeout"):
-              value = chosen[0].get(key, cfg[key]) if len(chosen) == 1 else cfg[key]
+              value = chosen[0].get(key, cfg[key])
               print(f"{key}={value}")
           PY
 
@@ -143,10 +159,7 @@ jobs:
       seeds: ${{ needs.pick.outputs.seeds }}
       step-timeout: ${{ needs.pick.outputs.step-timeout }}
       incident-timeout: ${{ needs.pick.outputs.incident-timeout }}
-      defender-vars: |
-        FLAGWAKE_LLM_BASE_URL=${{ matrix.base }}
-        FLAGWAKE_LLM_MODEL=${{ matrix.model }}
-        FLAGWAKE_LLM_EXTRA_BODY=${{ matrix.extra }}
-      defender-env: FLAGWAKE_LLM_KEY=${{ matrix.key }}
+      defender-vars: ${{ matrix.defender_vars }}
+      defender-env: ${{ matrix.defender_env }}
       name: result-${{ matrix.name }}
     secrets: inherit

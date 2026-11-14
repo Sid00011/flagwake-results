@@ -19,6 +19,7 @@ and the report records the model id the provider's server returned.
 | `gemini-3.5-flash-lite` | Google AI Studio (free tier), `https://generativelanguage.googleapis.com/v1beta/openai/` | stable | `{"reasoning_effort":"minimal"}`, the lowest Google documents (thinking cannot be switched off on Gemini 3 models) |
 | `gemma-4-31b-it` (open weights) | Google AI Studio (free tier), same base URL and key | listed for the Gemini API since 2026-04 | none sent (the model's default) |
 | `gemma-4-26b-a4b-it` (open weights) | Google AI Studio (free tier), same base URL and key | listed for the Gemini API since 2026-04 | none sent (the model's default) |
+| `@cf/qwen/qwen3-30b-a3b-fp8` (Qwen3 30B-A3B, open weights) | Cloudflare Workers AI (Workers Free plan); host `api.cloudflare.com`, full address kept in the secret `CF_BASE_URL` because it contains the account identifier | on the pricing page last updated 2026-11-12 | none sent (the model's default; the agent skips a `<think>` block) |
 
 A model added later gets its own row and settings here, committed before its first run.
 
@@ -29,6 +30,7 @@ Free-tier limits, as read on the provider's own rate-limit page:
 | `gemini-3.5-flash-lite` | 15 | 500 | 2026-11-14 (also 250,000 tokens per minute) |
 | `gemma-4-31b-it` | 30 | 14,400 | 2026-11-14 (16,000 tokens per minute; no signed run, see Changes) |
 | `gemma-4-26b-a4b-it` | 30 | 14,400 | 2026-11-14 (also 16,000 tokens per minute) |
+| `@cf/qwen/qwen3-30b-a3b-fp8` | (not stated) | 10,000 neurons a day, shared by every Workers AI model, reset at 00:00 UTC; this model costs 4,625 neurons per million input tokens and 30,475 per million output tokens | 2026-11-15 |
 
 ## Settings, the same for every model (`settings.json`)
 
@@ -67,6 +69,7 @@ result.
      official, because the practice incidents are public.
   2. `gemini-3.5-flash-lite`
   3. `gemma-4-26b-a4b-it` (see Changes for why not `gemma-4-31b-it`)
+  4. `qwen3-30b-a3b`, after an unsigned smoke run measures its neurons per call
 
 **Repeats.** A model run is repeated only if its report shows provider-side failures (failed calls
 greater than 0) or if no report was produced. The repeat is a new attempt, and both are published
@@ -141,3 +144,11 @@ docs/LIMITATIONS.md).
   also answered 155 requests with a server error that the agent retried). Every incident ended at
   the 20-call limit without a report, which is the model's own behaviour, not the failures. As for
   attempt 2, the repeat that "Repeats" allows was not made. Attempt 3 stands as the result.
+- 2026-11-15, before any run of it: `@cf/qwen/qwen3-30b-a3b-fp8` on Cloudflare Workers AI added.
+  Its daily limit is counted in neurons, not requests, so the call-limit rule is applied to neurons:
+  the smoke run measures the neurons one call uses, and the call limit is the largest of 20, 15, 10
+  and 5 for which 20 incidents x N calls stay within 80% of 10,000 neurons. The value is recorded
+  here before the signed run. Cloudflare's terms allow benchmark tests of its services and ask that a
+  published result include what is needed to replicate it, which this file, `settings.json` and the
+  signed commit provide. The workflow now passes an address kept in a secret through `defender-env`;
+  the settings of the earlier models are unchanged.
