@@ -23,13 +23,15 @@ Free-tier limits, as read on the provider's own rate-limit page:
 
 | model | requests per minute | requests per day | read on |
 |---|---|---|---|
-| `gemini-3.5-flash-lite` | FILL IN | FILL IN | FILL IN |
+| `gemini-3.5-flash-lite` | 15 | 500 | 2026-11-14 (also 250,000 tokens per minute) |
 
 ## Settings, the same for every model (`settings.json`)
 
-- Defender: `reference:model --max-calls N --max-tokens 1024 --timeout 40`.
-  - N is the largest of 20, 15, 10 and 5 for which one run (20 incidents × N calls) stays within
-    80% of the model's requests per day.
+- Defender: `reference:model --max-calls 20 --max-tokens 1024 --timeout 40 --rpm 14`.
+  - The call limit N is the largest of 20, 15, 10 and 5 for which one run (20 incidents × N calls)
+    stays within 80% of the model's requests per day. At 500 a day that is 20 (400 requests).
+  - `--rpm 14` paces requests one under the provider's 15 a minute, so that a new incident
+    starting right after the last one does not go over it.
   - At most 1,024 tokens per reply, because reasoning tokens count against it.
   - At most 40 seconds per request. After a rate-limit or busy answer, the agent waits as long as
     the provider asks and spaces out its later requests. A wait may use the 55 seconds a command

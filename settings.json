@@ -1,5 +1,5 @@
 {
-  "agent": "reference:model --max-calls 5 --max-tokens 1024 --timeout 40",
+  "agent": "reference:model --max-calls 20 --max-tokens 1024 --timeout 40 --rpm 14",
   "pack": "fresh",
   "seeds": "1",
   "step-timeout": "60",
