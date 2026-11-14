@@ -105,3 +105,6 @@ docs/LIMITATIONS.md).
   agent waits out rate limits instead of counting them as failed commands, names all 17 commands
   the company accepts, and allows 1,024-token replies by default. The incident timeout was raised
   to 1,800 seconds.
+- 2026-11-14, after attempt 2: the run had 2 provider-side failed calls out of 338, one rate-limit
+  answer whose wait did not fit and one reply that was not chat-completions JSON. The repeat that
+  "Repeats" allows was not made. Attempt 2 stands as the result.
