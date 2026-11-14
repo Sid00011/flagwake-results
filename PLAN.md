@@ -118,3 +118,6 @@ docs/LIMITATIONS.md).
 - 2026-11-14: the smoke run of `gemma-4-31b-it` failed: 6 of 8 calls got HTTP 500 or timed out, and
   the replies that came back held no command. It gets no signed run unless a later smoke run works.
   `gemma-4-26b-a4b-it` added, before any run, to try the other Gemma 4 model.
+- 2026-11-14: the smoke run of `gemma-4-26b-a4b-it` failed too: 10 of 20 calls got HTTP 500 or a
+  rate-limit answer that did not fit, and several replies wrapped the command in the model's
+  thinking tags. Neither Gemma 4 model gets a signed run on Flagwake v0.5.0rc5.
