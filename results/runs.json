@@ -47,5 +47,63 @@
   "folders": [
    "002-gemini-3.5-flash-lite"
   ]
+ },
+ {
+  "run": 43544545974,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43544545974",
+  "date": "2026-11-14",
+  "commit": "436fc8881e7e8d49dda7aedf98a6a78452c170d2",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43544830951,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43544830951",
+  "date": "2026-11-14",
+  "commit": "5d493db97c0db7c5fd834c78bfca8cf855e40442",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43547019540,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43547019540",
+  "date": "2026-11-14",
+  "commit": "100a9faf21ebcecb57654aa907d793d653c35678",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43547030165,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43547030165",
+  "date": "2026-11-14",
+  "commit": "100a9faf21ebcecb57654aa907d793d653c35678",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43549950906,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43549950906",
+  "date": "2026-11-14",
+  "commit": "476e07ad2f815ca1e6d99a518c453947321f0bd7",
+  "conclusion": "success",
+  "jobs": [
+   "model",
+   "pick"
+  ],
+  "folders": [
+   "003-gemma-4-26b-a4b-it"
+  ]
  }
 ]

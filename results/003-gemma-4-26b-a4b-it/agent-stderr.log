@@ -1,0 +1,20 @@
+reference agent | i-256f7a9b0705 | gemma-4-26b-a4b-it | calls 20 (failed 1, no command 1) | tokens 32543 in / 120 out | 188.4 s | server errors 11 | waited 154.8 s | stopped: call cap (20) reached
+reference agent | i-d4a74e734099 | gemma-4-26b-a4b-it | calls 20 (failed 2, no command 0) | tokens 32092 in / 105 out | 147.3 s | server errors 17 | waited 226.1 s | stopped: call cap (20) reached
+reference agent | i-96b146c49687 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 2) | tokens 35108 in / 135 out | 198.8 s | server errors 3 | waited 87.2 s | stopped: call cap (20) reached
+reference agent | i-db6f4c323e98 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 4) | tokens 34180 in / 94 out | 252.6 s | server errors 5 | waited 89.8 s | stopped: call cap (20) reached
+reference agent | i-1e6974e346c5 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 2) | tokens 33986 in / 115 out | 186.5 s | server errors 6 | waited 113.5 s | stopped: call cap (20) reached
+reference agent | i-222ae4d91645 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 1) | tokens 34802 in / 140 out | 165.4 s | server errors 11 | waited 180.4 s | stopped: call cap (20) reached
+reference agent | i-a8a4bebffdf0 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 1) | tokens 35034 in / 113 out | 180.7 s | server errors 4 | waited 101.6 s | stopped: call cap (20) reached
+reference agent | i-f81dae67f169 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 0) | tokens 34110 in / 140 out | 127.7 s | server errors 7 | waited 144.2 s | stopped: call cap (20) reached
+reference agent | i-0b94583bbe7b | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 3) | tokens 35404 in / 105 out | 194.4 s | server errors 5 | waited 117.3 s | stopped: call cap (20) reached
+reference agent | i-5f143cabfad8 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 1) | tokens 35378 in / 107 out | 149.8 s | waited 71.7 s | stopped: call cap (20) reached
+reference agent | i-903489cc1dbf | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 3) | tokens 33190 in / 100 out | 203.6 s | server errors 11 | waited 152.4 s | stopped: call cap (20) reached
+reference agent | i-948572ee338a | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 2) | tokens 36446 in / 116 out | 136.7 s | server errors 4 | waited 140.7 s | stopped: call cap (20) reached
+reference agent | i-c29084ad3fea | gemma-4-26b-a4b-it | calls 20 (failed 3, no command 1) | tokens 29855 in / 109 out | 165.0 s | server errors 16 | waited 207.9 s | stopped: call cap (20) reached
+reference agent | i-82412d44bc71 | gemma-4-26b-a4b-it | calls 20 (failed 1, no command 0) | tokens 36897 in / 116 out | 137.8 s | server errors 9 | waited 158.1 s | stopped: call cap (20) reached
+reference agent | i-d08f45e7b366 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 2) | tokens 34268 in / 103 out | 222.4 s | server errors 2 | waited 51.0 s | stopped: call cap (20) reached
+reference agent | i-0a1a27fb882d | gemma-4-26b-a4b-it | calls 20 (failed 1, no command 2) | tokens 30626 in / 77 out | 215.0 s | server errors 12 | waited 150.6 s | stopped: call cap (20) reached
+reference agent | i-d921ede1f09e | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 2) | tokens 37199 in / 123 out | 184.4 s | server errors 8 | waited 149.5 s | stopped: call cap (20) reached
+reference agent | i-18ababac75e9 | gemma-4-26b-a4b-it | calls 20 (failed 1, no command 2) | tokens 34218 in / 112 out | 159.6 s | server errors 14 | waited 201.3 s | stopped: call cap (20) reached
+reference agent | i-df52a8bce750 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 3) | tokens 35298 in / 120 out | 209.5 s | server errors 6 | waited 108.0 s | stopped: call cap (20) reached
+reference agent | i-56825284db99 | gemma-4-26b-a4b-it | calls 20 (failed 0, no command 2) | tokens 36754 in / 119 out | 190.0 s | server errors 4 | waited 93.1 s | stopped: call cap (20) reached
