@@ -137,3 +137,7 @@ docs/LIMITATIONS.md).
   requests a day) and its own pace, `--rpm 6`, set in `settings.json`. Its limit is 16,000 tokens a
   minute, and a request is about 1,700 tokens on average and up to about 2,800 late in an incident;
   the smoke run went over the limit at a pace of 14. Everything else is as for every model.
+- 2026-11-14, after attempt 3: the run had 9 provider-side failed calls out of 400 (the provider
+  also answered 155 requests with a server error that the agent retried). Every incident ended at
+  the 20-call limit without a report, which is the model's own behaviour, not the failures. As for
+  attempt 2, the repeat that "Repeats" allows was not made. Attempt 3 stands as the result.
