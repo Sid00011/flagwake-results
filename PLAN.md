@@ -20,6 +20,7 @@ and the report records the model id the provider's server returned.
 | `gemma-4-31b-it` (open weights) | Google AI Studio (free tier), same base URL and key | listed for the Gemini API since 2026-04 | none sent (the model's default) |
 | `gemma-4-26b-a4b-it` (open weights) | Google AI Studio (free tier), same base URL and key | listed for the Gemini API since 2026-04 | none sent (the model's default) |
 | `@cf/qwen/qwen3-30b-a3b-fp8` (Qwen3 30B-A3B, open weights) | Cloudflare Workers AI (Workers Free plan); host `api.cloudflare.com`, full address kept in the secret `CF_BASE_URL` because it contains the account identifier | on the pricing page last updated 2026-11-12 | none sent (the model's default; the agent skips a `<think>` block) |
+| `@cf/zai-org/glm-4.7-flash` (GLM-4.7-Flash, open weights) | Cloudflare Workers AI (Workers Free plan), same account, secrets and host as above | on the pricing page last updated 2026-11-12; no deprecation notice on its model page (2026-11-15) | `{"chat_template_kwargs":{"enable_thinking":false}}`, the switch Cloudflare documents for this model |
 
 A model added later gets its own row and settings here, committed before its first run.
 
@@ -31,6 +32,7 @@ Free-tier limits, as read on the provider's own rate-limit page:
 | `gemma-4-31b-it` | 30 | 14,400 | 2026-11-14 (16,000 tokens per minute; no signed run, see Changes) |
 | `gemma-4-26b-a4b-it` | 30 | 14,400 | 2026-11-14 (also 16,000 tokens per minute) |
 | `@cf/qwen/qwen3-30b-a3b-fp8` | (not stated) | 10,000 neurons a day, shared by every Workers AI model, reset at 00:00 UTC; this model costs 4,625 neurons per million input tokens and 30,475 per million output tokens | 2026-11-15 |
+| `@cf/zai-org/glm-4.7-flash` | (not stated) | the same 10,000 neurons a day; this model costs $0.060 per million input tokens and $0.400 per million output tokens (about 5,455 and 36,364 neurons) | 2026-11-15 |
 
 ## Settings, the same for every model (`settings.json`)
 
@@ -69,7 +71,8 @@ result.
      official, because the practice incidents are public.
   2. `gemini-3.5-flash-lite`
   3. `gemma-4-26b-a4b-it` (see Changes for why not `gemma-4-31b-it`)
-  4. `qwen3-30b-a3b`, after an unsigned smoke run measures its neurons per call
+  4. `glm-4.7-flash`, after an unsigned smoke run measures its neurons per call (see Changes for
+     why not `qwen3-30b-a3b`)
 
 **Repeats.** A model run is repeated only if its report shows provider-side failures (failed calls
 greater than 0) or if no report was produced. The repeat is a new attempt, and both are published
@@ -152,3 +155,10 @@ docs/LIMITATIONS.md).
   published result include what is needed to replicate it, which this file, `settings.json` and the
   signed commit provide. The workflow now passes an address kept in a secret through `defender-env`;
   the settings of the earlier models are unchanged.
+- 2026-11-15, smoke run of `qwen3-30b-a3b` (unsigned): 14 of 24 calls returned no answer text; the
+  model spent about 850 tokens a call on reasoning, often the whole 1,024-token reply limit, which
+  would also have cost about 13,200 neurons for a full run. Cloudflare documents no way to switch its
+  reasoning off, and its model page announces a deprecation on 2026-11-20, after which a result could
+  no longer be re-checked. It gets no signed run. `@cf/zai-org/glm-4.7-flash` takes its place, before
+  any run of it, with reasoning switched off by the parameter Cloudflare documents for it (the lowest
+  reasoning setting the provider documents, as for every model here); the neuron rule above applies.

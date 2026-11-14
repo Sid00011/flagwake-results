@@ -21,7 +21,7 @@ on:
       run:
         description: smoke, wiring, or one model from settings.json
         type: choice
-        options: [smoke, wiring, gemini-3.5-flash-lite, gemma-4-31b-it, gemma-4-26b-a4b-it, qwen3-30b-a3b]
+        options: [smoke, wiring, gemini-3.5-flash-lite, gemma-4-31b-it, gemma-4-26b-a4b-it, qwen3-30b-a3b, glm-4.7-flash]
       only:
         description: "smoke only: one model's name (empty: every model)"
         type: string

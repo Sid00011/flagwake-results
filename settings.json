@@ -33,6 +33,13 @@
       "base_secret": "CF_BASE_URL",
       "key": "CF_API_TOKEN",
       "extra": ""
+    },
+    {
+      "name": "glm-4.7-flash",
+      "model": "@cf/zai-org/glm-4.7-flash",
+      "base_secret": "CF_BASE_URL",
+      "key": "CF_API_TOKEN",
+      "extra": "{\"chat_template_kwargs\":{\"enable_thinking\":false}}"
     }
   ]
 }
