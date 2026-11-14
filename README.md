@@ -2,7 +2,7 @@
 
 These are signed runs of [Flagwake](https://github.com/Sid00011/Flagwake), with a few hosted
 models as the defender. Each run used Flagwake's own model agent and Flagwake's signing workflow
-at release v0.5.0rc4.
+at release v0.5.0rc5.
 
 - [PLAN.md](PLAN.md) holds the models, settings and rules. It was fixed before the first run.
 - [RESULTS.md](RESULTS.md) has every run and every attempt, with how to check each one yourself.

@@ -8,8 +8,8 @@ the next run.
 
 ## What is run
 
-Flagwake's own model agent (`reference:model`, Flagwake v0.5.0rc4) through Flagwake's signing
-workflow (`Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc4`). The model is the defender.
+Flagwake's own model agent (`reference:model`, Flagwake v0.5.0rc5) through Flagwake's signing
+workflow (`Sid00011/Flagwake/.github/workflows/check.yml@v0.5.0rc5`). The model is the defender.
 The harness starts the agent from its installed code, the agent asks the model for every command,
 and the report records the model id the provider's server returned.
 
@@ -31,12 +31,14 @@ Free-tier limits, as read on the provider's own rate-limit page:
   - N is the largest of 20, 15, 10 and 5 for which one run (20 incidents × N calls) stays within
     80% of the model's requests per day.
   - At most 1,024 tokens per reply, because reasoning tokens count against it.
-  - At most 40 seconds per call, including waits after a rate-limit answer.
+  - At most 40 seconds per request. After a rate-limit or busy answer, the agent waits as long as
+    the provider asks and spaces out its later requests. A wait may use the 55 seconds a command
+    is allowed, and a call that succeeds after waiting is not a failure.
 - Incidents: `pack: fresh` and `seeds: "1"`. That is 20 incidents, one from each of the 20 families,
   drawn inside each run with a key made in the run. Every run therefore has different incidents.
-- Step timeout: 60 seconds per command. The harness ends an incident after 900 seconds, and
-  20 calls × 40 s stays under that.
-- Temperature 0, and the agent's fixed instruction and history window, as in Flagwake v0.5.0rc4.
+- Step timeout: 60 seconds per command. Incident timeout: 1,800 seconds, so that 20 calls with
+  rate-limit waits still fit (the default is 900).
+- Temperature 0, and the agent's fixed instruction and history window, as in Flagwake v0.5.0rc5.
 
 **What the call limit means.** On the same kind of incidents, Flagwake's scripted `careful` program
 uses 12–30 commands per incident (mean 18.9, measured 2026-11-13), mostly reading logs. A model
@@ -50,9 +52,9 @@ result.
   number, upload nothing, and are visible in this repository's Actions history.
 - **Signed runs** each take the next attempt number in Sigstore's public log before their incidents
   are drawn, also if they later fail. Planned:
-  1. `wiring`: no model (`reference:model --dry`, practice incidents). It checks that the secret
-     reaches the workflow and that signing works. It is not official, because the practice
-     incidents are public.
+  1. `wiring`: no model (`reference:model --dry`, practice incidents), run on Flagwake
+     v0.5.0rc4. It checks that the secret reaches the workflow and that signing works. It is not
+     official, because the practice incidents are public.
   2. `gemini-3.5-flash-lite`
 
 **Repeats.** A model run is repeated only if its report shows provider-side failures (failed calls
@@ -97,4 +99,7 @@ docs/LIMITATIONS.md).
 
 ## Changes
 
-(none yet)
+- 2026-11-14, before the first model run: moved from Flagwake v0.5.0rc4 to v0.5.0rc5. Its model
+  agent waits out rate limits instead of counting them as failed commands, names all 17 commands
+  the company accepts, and allows 1,024-token replies by default. The incident timeout was raised
+  to 1,800 seconds.
