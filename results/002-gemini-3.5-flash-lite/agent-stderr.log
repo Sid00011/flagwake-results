@@ -1,0 +1,20 @@
+reference agent | i-7a4fb87403a3 | gemini-3.5-flash-lite | calls 11 (failed 0, no command 0) | tokens 16112 in / 126 out | 7.8 s | waited 35.9 s | stopped: end of incident
+reference agent | i-5c173615e30e | gemini-3.5-flash-lite | calls 18 (failed 0, no command 0) | tokens 32051 in / 196 out | 13.0 s | waited 60.8 s | stopped: end of incident
+reference agent | i-cd5bb7a0caea | gemini-3.5-flash-lite | calls 19 (failed 0, no command 0) | tokens 34115 in / 263 out | 12.3 s | waited 65.6 s | stopped: end of incident
+reference agent | i-0bc82d4f5c76 | gemini-3.5-flash-lite | calls 11 (failed 0, no command 0) | tokens 16212 in / 151 out | 7.1 s | waited 36.9 s | stopped: end of incident
+reference agent | i-56b71d49dce7 | gemini-3.5-flash-lite | calls 19 (failed 1, no command 0) | tokens 32040 in / 224 out | 12.1 s | rate-limited answers 1 | waited 70.2 s | stopped: end of incident
+reference agent | i-27cd3c1ecbe3 | gemini-3.5-flash-lite | calls 19 (failed 0, no command 0) | tokens 34097 in / 203 out | 13.4 s | waited 64.5 s | stopped: end of incident
+reference agent | i-74b8af0ae005 | gemini-3.5-flash-lite | calls 11 (failed 0, no command 0) | tokens 15372 in / 172 out | 8.4 s | waited 35.8 s | stopped: end of incident
+reference agent | i-65ca32b49ec2 | gemini-3.5-flash-lite | calls 19 (failed 0, no command 1) | tokens 34705 in / 150 out | 15.4 s | waited 62.5 s | stopped: end of incident
+reference agent | i-13c62e9546ab | gemini-3.5-flash-lite | calls 16 (failed 0, no command 0) | tokens 27576 in / 158 out | 11.7 s | waited 53.3 s | stopped: end of incident
+reference agent | i-3962e9563dbb | gemini-3.5-flash-lite | calls 20 (failed 0, no command 0) | tokens 38610 in / 217 out | 14.3 s | waited 68.4 s | stopped: end of incident
+reference agent | i-e55c097d0642 | gemini-3.5-flash-lite | calls 16 (failed 0, no command 1) | tokens 27559 in / 177 out | 11.1 s | waited 54.4 s | stopped: end of incident
+reference agent | i-7e63577b05c9 | gemini-3.5-flash-lite | calls 19 (failed 0, no command 0) | tokens 33173 in / 158 out | 13.4 s | waited 64.4 s | stopped: end of incident
+reference agent | i-89d7ad0b4200 | gemini-3.5-flash-lite | calls 19 (failed 0, no command 0) | tokens 35248 in / 206 out | 16.9 s | waited 61.1 s | stopped: end of incident
+reference agent | i-8e4398612428 | gemini-3.5-flash-lite | calls 18 (failed 0, no command 0) | tokens 33315 in / 180 out | 14.3 s | rate-limited answers 1 | waited 78.4 s | stopped: end of incident
+reference agent | i-06a31cf0d5a7 | gemini-3.5-flash-lite | calls 7 (failed 0, no command 0) | tokens 8022 in / 126 out | 5.0 s | waited 21.5 s | stopped: end of incident
+reference agent | i-81c4da0fc3f9 | gemini-3.5-flash-lite | calls 20 (failed 0, no command 0) | tokens 36047 in / 135 out | 14.6 s | waited 67.5 s | stopped: end of incident
+reference agent | i-0f54d6aa7e3a | gemini-3.5-flash-lite | calls 18 (failed 0, no command 0) | tokens 31320 in / 201 out | 11.7 s | waited 62.0 s | stopped: end of incident
+reference agent | i-8b6860a047b4 | gemini-3.5-flash-lite | calls 19 (failed 0, no command 0) | tokens 33832 in / 150 out | 13.2 s | waited 64.9 s | stopped: end of incident
+reference agent | i-58245f367863 | gemini-3.5-flash-lite | calls 19 (failed 0, no command 0) | tokens 34965 in / 177 out | 12.9 s | rate-limited answers 1 | waited 84.0 s | stopped: end of incident
+reference agent | i-5995ea031178 | gemini-3.5-flash-lite | calls 20 (failed 1, no command 1) | tokens 36253 in / 153 out | 14.4 s | waited 67.7 s | stopped: end of incident

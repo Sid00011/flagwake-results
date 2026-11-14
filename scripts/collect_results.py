@@ -89,9 +89,12 @@ def fetch(repo: str, results: Path) -> int:
                 print(f"added {dest.relative_to(results.parent)}")
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+        jobs = json.loads(_gh("run", "view", str(run["databaseId"]), "--repo", repo,
+                              "--json", "jobs")).get("jobs", [])  # fmt: skip
+        ran = sorted({j["name"].split(" ")[0] for j in jobs if j.get("conclusion") != "skipped"})
         index.append({"run": run["databaseId"], "url": run["url"], "date": run["createdAt"][:10],
                       "commit": run["headSha"], "conclusion": run["conclusion"],
-                      "folders": folders})  # fmt: skip
+                      "jobs": ran, "folders": folders})  # fmt: skip
     (results / "runs.json").write_text(json.dumps(index, indent=1) + "\n", encoding="utf-8",
                                        newline="\n")  # fmt: skip
     print(f"{len(index)} run(s) of {WORKFLOW} listed in results/runs.json")
@@ -293,9 +296,13 @@ def page(rows: list[dict], attempt_lines: list[str], runs: list[dict], repo: str
         out += ["(Not listed: run `python scripts/collect_results.py page` with the network.)", ""]
     empty = [r for r in runs if not r.get("folders")]
     if empty:
-        out += ["Runs of the workflow that uploaded no files (their attempt, if they reached it,",
-                "is in the list above):", ""]  # fmt: skip
-        out += [f"- [{r['run']}]({r['url']}) on {r['date']}: {r['conclusion']}" for r in empty]
+        out += ["Runs of the workflow that uploaded no files. A smoke test is unsigned and takes",
+                "no attempt number; any other run that reached its attempt is in the list above:",
+                ""]  # fmt: skip
+        for r in empty:
+            what = ("smoke test (unsigned, two public practice incidents)"
+                    if r.get("jobs") == ["smoke"] else "run")  # fmt: skip
+            out.append(f"- [{r['run']}]({r['url']}) on {r['date']}: {what}, {r['conclusion']}")
         out.append("")
     folder = "results/<attempt>-<name>"
     out += [

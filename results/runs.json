@@ -1,0 +1,51 @@
+[
+ {
+  "run": 43533251556,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43533251556",
+  "date": "2026-11-14",
+  "commit": "e18dbca791ca23b4e681b2017cf61b0ab2764a69",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43533367675,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43533367675",
+  "date": "2026-11-14",
+  "commit": "e18dbca791ca23b4e681b2017cf61b0ab2764a69",
+  "conclusion": "success",
+  "jobs": [
+   "wiring"
+  ],
+  "folders": [
+   "001-wiring"
+  ]
+ },
+ {
+  "run": 43539368300,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43539368300",
+  "date": "2026-11-14",
+  "commit": "2ef9da0e5049b70a5021e15cceff76d0d193d722",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43540110727,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43540110727",
+  "date": "2026-11-14",
+  "commit": "0ec706f8aa2b2064eef434f1898c30539ae98285",
+  "conclusion": "success",
+  "jobs": [
+   "model",
+   "pick"
+  ],
+  "folders": [
+   "002-gemini-3.5-flash-lite"
+  ]
+ }
+]
