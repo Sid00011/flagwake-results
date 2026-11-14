@@ -1,0 +1,15 @@
+{
+  "agent": "reference:model --max-calls 5 --max-tokens 1024 --timeout 40",
+  "pack": "fresh",
+  "seeds": "1",
+  "step-timeout": "60",
+  "models": [
+    {
+      "name": "gemini-3.5-flash-lite",
+      "model": "gemini-3.5-flash-lite",
+      "base": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "key": "GEMINI_API_KEY",
+      "extra": "{\"reasoning_effort\":\"minimal\"}"
+    }
+  ]
+}
