@@ -166,3 +166,6 @@ docs/LIMITATIONS.md).
   without a command; 59,537 input and 257 output tokens, about 8.4 neurons a call. By the neuron rule
   the call limit is 20: 20 incidents x 20 calls x 8.4 = about 3,360 neurons, within 80% of 10,000.
   The signed run uses the shared settings (20 calls, `--rpm 14`) with this model's reasoning switch.
+- 2026-11-15, after attempt 4 (`glm-4.7-flash`): no provider-side failures (400 calls, 0 failed,
+  0 replies without a command; about 3,385 neurons). Nothing for "Repeats" to consider; attempt 4
+  stands as the result.

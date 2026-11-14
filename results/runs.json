@@ -105,5 +105,41 @@
   "folders": [
    "003-gemma-4-26b-a4b-it"
   ]
+ },
+ {
+  "run": 43652252308,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43652252308",
+  "date": "2026-11-14",
+  "commit": "3e092305e2644e12a11d72a66ae4abd7a44cf4ed",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43652632986,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43652632986",
+  "date": "2026-11-14",
+  "commit": "6665194343e4a32098bccc2fe12c8e2779d1177c",
+  "conclusion": "success",
+  "jobs": [
+   "smoke"
+  ],
+  "folders": []
+ },
+ {
+  "run": 43652983642,
+  "url": "https://github.com/Sid00011/flagwake-results/actions/runs/43652983642",
+  "date": "2026-11-14",
+  "commit": "fc5b3eafed3633980c314d70cadb5a858ebe6c17",
+  "conclusion": "success",
+  "jobs": [
+   "model",
+   "pick"
+  ],
+  "folders": [
+   "004-glm-4.7-flash"
+  ]
  }
 ]

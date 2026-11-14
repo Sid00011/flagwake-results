@@ -1,0 +1,20 @@
+reference agent | i-e1b8ee41e1d9 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 27993 in / 186 out | 30.5 s | waited 72.4 s | stopped: call cap (20) reached
+reference agent | i-05189cd74b2a | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 27617 in / 154 out | 9.7 s | waited 72.3 s | stopped: call cap (20) reached
+reference agent | i-6d4daa8c4051 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 27842 in / 146 out | 25.9 s | waited 61.2 s | stopped: call cap (20) reached
+reference agent | i-c3bf701e6648 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 29265 in / 324 out | 13.5 s | waited 68.3 s | stopped: call cap (20) reached
+reference agent | i-85946d295990 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 28298 in / 144 out | 14.6 s | waited 68.8 s | stopped: call cap (20) reached
+reference agent | i-b4f631100af1 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 28632 in / 129 out | 13.6 s | waited 69.2 s | stopped: call cap (20) reached
+reference agent | i-200aa70dfc76 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 29031 in / 124 out | 9.1 s | waited 73.7 s | stopped: call cap (20) reached
+reference agent | i-a1ad8587e5b8 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 33093 in / 119 out | 10.6 s | waited 71.3 s | stopped: call cap (20) reached
+reference agent | i-b09be78e1495 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 29030 in / 125 out | 23.7 s | waited 65.3 s | stopped: call cap (20) reached
+reference agent | i-b3f2eea77e33 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 30678 in / 209 out | 54.0 s | waited 60.7 s | stopped: call cap (20) reached
+reference agent | i-23cef99eec21 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 30104 in / 142 out | 11.4 s | waited 70.5 s | stopped: call cap (20) reached
+reference agent | i-0cbcc8160e2b | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 29434 in / 136 out | 12.4 s | waited 69.4 s | stopped: call cap (20) reached
+reference agent | i-94f1230b00c1 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 31283 in / 145 out | 24.0 s | waited 64.0 s | stopped: call cap (20) reached
+reference agent | i-aca762e97493 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 31366 in / 137 out | 8.9 s | waited 73.0 s | stopped: call cap (20) reached
+reference agent | i-a0e25d1c1fff | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 30066 in / 320 out | 11.6 s | waited 71.4 s | stopped: end of incident
+reference agent | i-06341641ed5d | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 29639 in / 120 out | 19.4 s | waited 68.4 s | stopped: call cap (20) reached
+reference agent | i-d557b759b2ff | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 33347 in / 148 out | 16.1 s | waited 68.0 s | stopped: call cap (20) reached
+reference agent | i-737afee0e0a4 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 28736 in / 145 out | 27.1 s | waited 63.9 s | stopped: call cap (20) reached
+reference agent | i-194dbb7a976f | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 30072 in / 134 out | 14.4 s | waited 67.4 s | stopped: call cap (20) reached
+reference agent | i-428362fa0fc8 | @cf/zai-org/glm-4.7-flash | calls 20 (failed 0, no command 0) | tokens 33570 in / 129 out | 32.0 s | waited 65.2 s | stopped: call cap (20) reached

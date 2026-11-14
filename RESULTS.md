@@ -13,6 +13,7 @@ left no report.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 2 | gemini-3.5-flash-lite at generativelanguage.googleapis.com | 2026-11-14 | 20 (15/5) | 93.7 [76-112] | worse (+36.9 [+15, +55]) | too few incidents to conclude (+0.8 [-14, +14]) | 0/7 [0-35%] | 6 | 1 | 5/5 [57-100%] | 20/20 | 2 / 3 | official |
 | 3 | gemma-4-26b-a4b-it at generativelanguage.googleapis.com | 2026-11-14 | 20 (13/7) | 97.4 [93-100] | worse (+43.8 [+24, +55]) | worse (+6.9 [+5, +12]) | 0/5 [0-43%] | 0 | 0 | 0/7 [0-35%] | 0/20 | 9 / 34 | official |
+| 4 | @cf/zai-org/glm-4.7-flash at api.cloudflare.com | 2026-11-14 | 20 (13/7) | 100.3 [99-102] | worse (+38.0 [+21, +46]) | too few incidents to conclude (+7.7 [-1, +14]) | 1/2 [9-91%] | 3 | 3 | 0/7 [0-35%] | 1/20 | 0 / 0 | official |
 
 Damage index: 0 = the best response, 100 = doing nothing (lower is better).
 A comparison says "too few incidents to conclude" when its interval crosses 0.
@@ -39,6 +40,16 @@ A comparison says "too few incidents to conclude" when its interval crosses 0.
 - Left 13 compromised host(s) uncontained, in 10 of 13 live incidents.
 - Never took a containment action in 9 of 13 live incidents.
 
+### Attempt 4: @cf/zai-org/glm-4.7-flash
+
+- Defender: `reference:model --max-calls 20 --max-tokens 1024 --timeout 40 --rpm 14`; pack fresh; files: [results/004-glm-4.7-flash](results/004-glm-4.7-flash/)
+- Model calls: 400 (0 failed); tokens sent and received: 602,312 (self-reported usage: the provider's count, or the agent's estimate where it gave none)
+- Incidents worse than doing nothing: 2
+- To tell 10 points apart from careful needs about 81 live incidents; this run has 13.
+- Left 12 compromised host(s) uncontained, in 8 of 13 live incidents.
+- Never took a containment action in 8 of 13 live incidents.
+- Acted on 3 clean target(s) in 3 of 20 incidents; 1 of those actions came before reading anything about the target.
+
 ## Runs without a model
 
 - Attempt 1 (`reference:model --dry`, pack practice): signed, not official (the incidents were not fresh ones drawn in the run); files: [results/001-wiring](results/001-wiring/)
@@ -48,10 +59,11 @@ A comparison says "too few incidents to conclude" when its interval crosses 0.
 From Sigstore's public log (`flagwake verify --attempts`):
 
 ```
-attempt 3 of Sid00011/flagwake-results: 2 other attempt ticket(s) of this repository are in the public log
+attempt 4 of Sid00011/flagwake-results: 3 other attempt ticket(s) of this repository are in the public log
   attempt 1: run 43533367675/attempts/1 (log index 3865488029)
   attempt 2: run 43540110727/attempts/1 (log index 3866590989)
-  attempt 3: run 43549950906/attempts/1 (log index 3868387791)  <- this report
+  attempt 3: run 43549950906/attempts/1 (log index 3868387791)
+  attempt 4: run 43652983642/attempts/1 (log index 3889000159)  <- this report
 ```
 
 Runs of the workflow that uploaded no files. A smoke test is unsigned and takes
@@ -63,6 +75,8 @@ no attempt number; any other run that reached its attempt is in the list above:
 - [43544830951](https://github.com/Sid00011/flagwake-results/actions/runs/43544830951) on 2026-11-14: smoke test (unsigned, two public practice incidents), success
 - [43547019540](https://github.com/Sid00011/flagwake-results/actions/runs/43547019540) on 2026-11-14: smoke test (unsigned, two public practice incidents), success
 - [43547030165](https://github.com/Sid00011/flagwake-results/actions/runs/43547030165) on 2026-11-14: smoke test (unsigned, two public practice incidents), success
+- [43652252308](https://github.com/Sid00011/flagwake-results/actions/runs/43652252308) on 2026-11-14: smoke test (unsigned, two public practice incidents), success
+- [43652632986](https://github.com/Sid00011/flagwake-results/actions/runs/43652632986) on 2026-11-14: smoke test (unsigned, two public practice incidents), success
 
 ## Check a run yourself
 
