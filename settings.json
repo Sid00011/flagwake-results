@@ -18,6 +18,13 @@
       "base": "https://generativelanguage.googleapis.com/v1beta/openai/",
       "key": "GEMINI_API_KEY",
       "extra": ""
+    },
+    {
+      "name": "gemma-4-26b-a4b-it",
+      "model": "gemma-4-26b-a4b-it",
+      "base": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "key": "GEMINI_API_KEY",
+      "extra": ""
     }
   ]
 }
