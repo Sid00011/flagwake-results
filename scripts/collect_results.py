@@ -7,11 +7,18 @@ fetch downloads the files of every run of .github/workflows/results.yml into
 results/<attempt>-<name>/, exactly as the run uploaded them. It never changes a folder that is
 already there, and it records in results/runs.json every run, also those that left no files.
 
-page checks every report in results/ with ``flagwake verify --provenance --require-official``,
+page checks every report in results/ with ``flagwake verify --provenance --require-official``
+(Flagwake 0.5.3 or later),
 and lists every attempt that Sigstore's public log holds for this repository, also attempts that
 left no report. Every number on the page is read from a signed report, so the page cannot show a
 run more favourably than its report, nor leave one out. Rows are in attempt order, not sorted by
 score: the runs are on different incidents and the page is not a ranking.
+
+A run signed by a release of Flagwake's signing workflow with the signing-token issue (v0.5.0rc4
+to v0.5.2, fixed in 0.5.3) is not official. Its defender could have had the run's signing token
+only if the calling workflow named one of the runner's own variables in defender-env, so page
+reads this repository's workflow and settings.json at the run's signed commit (git show) and
+lists every name defender-env could pass.
 
 Standard library only (Python 3.11 or newer).
 """
@@ -38,6 +45,11 @@ OFFICIAL_PROBLEMS = (
     "not every incident family the company can host was run",
     "the run has no attempt ticket",
 )
+# What it says of a run signed by a release with the signing-token issue (Flagwake SECURITY.md,
+# "Fixed security issues").
+AFFECTED = re.compile(r"signed by release (v\S+), which had the signing-token issue fixed in")
+RUNNER_PREFIXES = ("ACTIONS_", "GITHUB_", "RUNNER_")
+SECURITY = "https://github.com/Sid00011/Flagwake/blob/main/SECURITY.md#fixed-security-issues"
 
 
 # ----------------------------------------------------------------------------------------- fetch
@@ -127,13 +139,45 @@ def check(folder: Path, repo: str, attempts: bool = False) -> dict:
     code, lines = run_verify(argv + (["--attempts"] if attempts else []))
     head = lines[0] if lines else ""
     problems = head.split(": ", 1)[1].split("; ") if head.startswith("FAIL") else []
+    affected = next((m.group(1) for p in problems if (m := AFFECTED.match(p))), "")
+    rest = [p for p in problems if not AFFECTED.match(p)]
     if code == 0:
         status = "official"
-    elif problems and all(p in OFFICIAL_PROBLEMS for p in problems):
+    elif problems and all(p in OFFICIAL_PROBLEMS for p in rest):
         status = "signed, not official"
     else:
         status = "FAILED"
-    return {"status": status, "lines": [x.strip() for x in lines[1:]], "problems": problems}
+    return {"status": status, "lines": [x.strip() for x in lines[1:]], "problems": rest,
+            "affected": affected}  # fmt: skip
+
+
+def _git_show(root: Path, commit: str, path: str) -> str | None:
+    done = subprocess.run(["git", "-C", str(root), "show", f"{commit}:{path}"],
+                          capture_output=True, text=True, encoding="utf-8")  # fmt: skip
+    return done.stdout if done.returncode == 0 else None
+
+
+def defender_env_names(root: Path, commit: str) -> list[str] | None:
+    """Every name defender-env could pass in this repository's workflow at ``commit``: the
+    literal entries, and for ``${{ matrix.key }}`` or ``${{ matrix.defender_env }}`` the key
+    and base_secret fields of settings.json at the same commit, from which the workflow builds
+    them. None when a file is missing or an entry is an expression of another kind."""
+    workflow = _git_show(root, commit, ".github/workflows/results.yml")
+    settings = _git_show(root, commit, "settings.json")
+    if workflow is None or settings is None:
+        return None
+    names: set[str] = set()
+    for m in re.finditer(r"^\s*defender-env:\s*(.+?)\s*$", workflow, re.M):
+        for entry in m.group(1).split(","):
+            source = entry.split("=", 1)[-1].strip()
+            if source in ("${{ matrix.key }}", "${{ matrix.defender_env }}"):
+                for model in json.loads(settings).get("models", []):
+                    names.update(model[f] for f in ("key", "base_secret") if model.get(f))
+            elif "${{" in source:
+                return None
+            else:
+                names.add(source)
+    return sorted(names)
 
 
 def _after(lines: list[str], prefix: str) -> str:
@@ -192,6 +236,7 @@ def row(folder: Path, doc: dict, verdict: dict) -> dict:
         "findings": prof.get("findings") or [],
         "power": prof.get("power") or {},
         "verdict": verdict,
+        "commit": prov.get("commit") or "",
     }
 
 
@@ -214,13 +259,61 @@ def _index(r: dict) -> str:
 def _check(r: dict) -> str:
     v = r["verdict"]
     if v["status"] == "signed, not official":
-        return "signed, not official (" + "; ".join(v["problems"]) + ")"
+        why = list(v["problems"])
+        if v.get("affected"):
+            why.append(f"signed by {v['affected']}, a release with the signing-token issue: "
+                       "checked by hand below")  # fmt: skip
+        return "signed, not official (" + "; ".join(why) + ")"
     if v["status"] == "FAILED":
         return "**FAILED**: " + ("; ".join(v["problems"]) or "see verify")
     return v["status"]
 
 
-def page(rows: list[dict], attempt_lines: list[str], runs: list[dict], repo: str) -> str:
+def _by_hand(rows: list[dict], repo: str, root: Path) -> list[str]:
+    """The section on runs signed by a release with the signing-token issue."""
+    hit = [r for r in rows if r["verdict"].get("affected")]
+    if not hit:
+        return []
+    out = [
+        "## Runs signed by a release with the signing-token issue",
+        "",
+        "These runs were signed by Flagwake's signing workflow at a release in which the",
+        "calling workflow could hand the run's signing token to its defender (fixed in Flagwake",
+        f"0.5.3; [SECURITY.md]({SECURITY})), so `flagwake verify` no longer calls them",
+        "official. A defender could have had the token only if the calling workflow named one",
+        "of the runner's own variables (ACTIONS_, GITHUB_ or RUNNER_) in defender-env. Every",
+        "name it could pass, read from this repository's workflow and settings.json at each",
+        "run's signed commit:",
+        "",
+    ]
+    clean = True
+    for r in hit:
+        names = defender_env_names(root, r["commit"]) if r["commit"] else None
+        files = (f"[workflow](https://github.com/{repo}/blob/{r['commit']}/.github/workflows/"
+                 f"results.yml), [settings.json](https://github.com/{repo}/blob/{r['commit']}/"
+                 "settings.json)")  # fmt: skip
+        if names is None:
+            clean = False
+            said = "could not be read here: check the files by hand"
+        else:
+            runner = [n for n in names if n.upper().startswith(RUNNER_PREFIXES)]
+            clean = clean and not runner
+            said = ", ".join(f"`{n}`" for n in names) + (
+                f"; **a runner variable: {', '.join(runner)}**" if runner else "")
+        what = r["model"] if r["has_model"] else "no model"
+        signed = f"signed by {r['verdict']['affected']} at commit {r['commit'][:7]}"
+        out.append(f"- Attempt {r['attempt_text']} ({what}, {signed}): {said}. {files}")
+    out.append("")
+    if clean:
+        out += ["None of them is a runner variable, so no defender had the run's signing token",
+                "and the numbers above stand. To make a run official again, it would have to be",
+                "repeated with Flagwake 0.5.3 or later.", ""]  # fmt: skip
+    return out
+
+
+def page(
+    rows: list[dict], attempt_lines: list[str], runs: list[dict], repo: str, root: Path = ROOT
+) -> str:
     models = [r for r in rows if r["has_model"]]
     others = [r for r in rows if not r["has_model"]]
     out = [
@@ -288,6 +381,7 @@ def page(rows: list[dict], attempt_lines: list[str], runs: list[dict], repo: str
             out.append(f"- Attempt {r['attempt_text']} (`{r['command']}`, pack {r['pack']}): "
                        f"{_check(r)}; files: {files}")  # fmt: skip
         out.append("")
+    out += _by_hand(rows, repo, root)
     out += ["## Every attempt of this repository", ""]
     if attempt_lines:
         out += ["From Sigstore's public log (`flagwake verify --attempts`):", "", "```",
@@ -338,7 +432,7 @@ def build(results: Path, repo: str, attempts: bool) -> str:
             attempt_lines = [listing[start]] + ["  " + x for x in listing[start + 1 :]]
     runs_file = results / "runs.json"
     runs = json.loads(runs_file.read_text(encoding="utf-8")) if runs_file.is_file() else []
-    return page(rows, attempt_lines, runs, repo)
+    return page(rows, attempt_lines, runs, repo, results.parent)
 
 
 def main() -> int:
